@@ -6,9 +6,7 @@
   text-align: center;
   box-sizing: border-box;
   background-image: url('assets/29300208-green-grass-for-sport-background.jpg');
-  height: 100vh;
-  padding-top: 195px;
-  
+  height: 100%;
 }
 a {
 text-decoration: none;

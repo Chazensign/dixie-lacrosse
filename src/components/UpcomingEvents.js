@@ -28,10 +28,16 @@ const UpcomingContainer = styled.div`
   background: white;
   width: 200px;
   height: 250px;
-  position: fixed;
-  right: 5vw;
-  bottom: 2vh;
   border: 2px solid lightgray;
+  margin: 10px;
+  h2 {
+    display: flex;
+    color: grey;
+    font-size: 24px;
+    font-weight: bold;
+    align-self: center;
+    justify-self: flex-start;
+  }
   @media (max-width: 800px) {
 
   }
