@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import basket from '../assets/basket.jpg'
+import { bars } from '../assets/bars-solid.js'
 
 class Header extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Header extends Component {
           <Link to='/sponsors'>SPONSORS</Link>
           <Link to='/contact'>CONTACT</Link>
         </nav>
+        <nav className='bar-menu'>{bars}</nav>
       </HeaderStyle>
     )
   }
@@ -62,5 +64,27 @@ const HeaderStyle = styled.header`
   }
   a:hover {
     color: lightgray;
+  }
+  .bar-menu {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    height: 100px;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logo {
+      height: 80px;
+    }
+    .header-nav {
+      display: none;
+    }
+    .bar-menu {
+      width: 50px;
+      display: block;
+      z-index: 2;
+      margin-right: 30px;
+    }
   }
 `

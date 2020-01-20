@@ -1,45 +1,38 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 
-class Login extends Component {
+class UpcomingEvents extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      username: '',
-      password: ''
+
      }
   }
-  handleChange = (trg) => {
-    this.setState({ [trg.name]: trg.value });
-  }
+  
   render() { 
     return ( 
-      <LoginContainer>
-        <h2>Login</h2>
-        <input placeholder='Username' name='username' onChange={e => this.handleChange(e.target)} />
-        <input placeholder='Password' name='password' onChange={e => this.handleChange(e.target)} />
-        <div className='button-cont'>
-        <button >Submit</button>
-        <button onClick={() => this.props.showLogin()} >Cancel</button>
-        </div>
-      </LoginContainer>
+      <UpcomingContainer>
+        <h2>Upcoming</h2>
+      </UpcomingContainer>
      )
   }
 }
  
-export default Login;
+export default UpcomingEvents;
 
-const LoginContainer = styled.div`
+const UpcomingContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   background: white;
-  width: 100px;
-  height: 200px;
+  width: 200px;
+  height: 250px;
   position: fixed;
-  right: 10%;
-  bottom: 10%;
-  transform: translate(-50%, -50%);
+  right: 5vw;
+  bottom: 2vh;
   border: 2px solid lightgray;
+  @media (max-width: 800px) {
+
+  }
   `
