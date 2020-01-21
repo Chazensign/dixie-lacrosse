@@ -1,5 +1,5 @@
-insert into admin (username, password)
-value($1, $2);
+insert into admins (username, password)
+values($1, $2);
 
-select * from admin
+select * from admins
 where username = $1;

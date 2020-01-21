@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import basket from '../assets/basket.jpg'
 import { bars } from '../assets/bars-solid.js'
+import { connect } from 'react-redux'
 
 class Header extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Header extends Component {
           <Link to='/'>HOME</Link>
           <Link to='/schedule'>SCHEDULE</Link>
           <Link to='/teaminfo'>TEAM INFORMATION</Link>
-          <Link>TEAM STORE</Link>
+          <Link to=''>TEAM STORE</Link>
           <Link to='/sponsors'>SPONSORS</Link>
           <Link to='/contact'>CONTACT</Link>
         </nav>
@@ -28,7 +29,14 @@ class Header extends Component {
     )
   }
 }
-export default Header;
+
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username
+  }
+}
+export default connect(mapStateToProps)(Header)
 
 
 

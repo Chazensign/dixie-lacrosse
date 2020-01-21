@@ -42,6 +42,7 @@ const LoginContainer = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   border: 2px solid lightgray;
+  z-index: 5;
   h2 {
     font-size: 24px;
     font-weight: bold;

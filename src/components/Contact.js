@@ -1,29 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import Login from './Login'
+import AddAdmin from './AddAdmin'
 
 class Contact extends Component {
   constructor(props) {
-    super(props);
-    this.state = { 
-      loginHidden: false
-     }
+    super(props)
+    this.state = {
+      loginHidden: false,
+      showAdd: true
+    }
   }
 
   showLogin = () => {
-    this.setState({ loginHidden: !this.state.loginHidden });
+    this.setState({ loginHidden: !this.state.loginHidden })
   }
-  render() { 
-    return ( <>
-    <ContactBox>
-      Contact
-      <button onClick={() => this.showLogin()} >Admin Login</button>
-    </ContactBox>
-    {this.state.loginHidden && <Login showLogin={this.showLogin}/>}
-    </> );
+  showAddAdmin = () => {
+    this.setState({ showAdd: !this.state.showAdd });
+  }
+  render() {
+    return (
+      <>
+        <ContactBox>
+          Contact
+          <button onClick={() => this.showLogin()}>Admin Login</button>
+        </ContactBox>
+        {this.state.loginHidden && <Login showLogin={this.showLogin} />}
+        {this.state.showAdd && <AddAdmin showAddAdmin={this.showAddAdmin} />}
+      </>
+    )
   }
 }
- 
+
 export default Contact
 
 const ContactBox = styled.div`

@@ -18,8 +18,11 @@ class AddAdmin extends Component {
     const { username, password, password2 } = this.state
     if (password === password2) {
       axios.post('/api/admin', { username, password })
-      .then()
-      .catch()
+      .then(res => {
+        alert('Admin Created')
+        console.log(res.data)
+      })
+      .catch(err => alert(err.request.response))
     }
     else {
       alert('Passwords need to match.')
@@ -28,8 +31,8 @@ class AddAdmin extends Component {
 
   render() {
     return (
-      <LoginContainer>
-        <h2>Login</h2>
+      <AddAdminContainer>
+        <h2>Add New Admin</h2>
         <input
           placeholder='Username'
           name='username'
@@ -46,17 +49,17 @@ class AddAdmin extends Component {
           onChange={e => this.handleChange(e.target)}
         />
         <div className='button-cont'>
-          <button>Submit</button>
-          {/* <button onClick={() => this.props.showLogin()}>Cancel</button> */}
+          <button onClick={() => this.addNewAdmin()}>Submit</button>
+          <button onClick={() => this.props.showAddAdmin()}>Cancel</button>
         </div>
-      </LoginContainer>
+      </AddAdminContainer>
     )
   }
 }
 
 export default AddAdmin
 
-const LoginContainer = styled.div`
+const AddAdminContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
