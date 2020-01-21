@@ -1,33 +1,60 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
-class Login extends Component {
+class AddAdmin extends Component {
   constructor(props) {
-    super(props);
-    this.state = { 
+    super(props)
+    this.state = {
       username: '',
-      password: ''
-     }
+      password: '',
+      password2: ''
+    }
   }
-  handleChange = (trg) => {
-    this.setState({ [trg.name]: trg.value });
+  handleChange = trg => {
+    this.setState({ [trg.name]: trg.value })
   }
-  render() { 
-    return ( 
+  addNewAdmin = () => {
+    const { username, password, password2 } = this.state
+    if (password === password2) {
+      axios.post('/api/admin', { username, password })
+      .then()
+      .catch()
+    }
+    else {
+      alert('Passwords need to match.')
+    }
+  }
+
+  render() {
+    return (
       <LoginContainer>
         <h2>Login</h2>
-        <input type='text' placeholder='Username' name='username' onChange={e => this.handleChange(e.target)} />
-        <input type='password' placeholder='Password' name='password' onChange={e => this.handleChange(e.target)} />
+        <input
+          placeholder='Username'
+          name='username'
+          onChange={e => this.handleChange(e.target)}
+        />
+        <input
+          placeholder='Password'
+          name='password'
+          onChange={e => this.handleChange(e.target)}
+        />
+        <input
+          placeholder='Password'
+          name='password2'
+          onChange={e => this.handleChange(e.target)}
+        />
         <div className='button-cont'>
-        <button >Submit</button>
-        <button onClick={() => this.props.showLogin()} >Cancel</button>
+          <button>Submit</button>
+          {/* <button onClick={() => this.props.showLogin()}>Cancel</button> */}
         </div>
       </LoginContainer>
-     )
+    )
   }
 }
- 
-export default Login;
+
+export default AddAdmin
 
 const LoginContainer = styled.div`
   display: flex;
