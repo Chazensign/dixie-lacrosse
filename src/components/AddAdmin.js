@@ -19,13 +19,13 @@ class AddAdmin extends Component {
     if (password === password2) {
       axios.post('/api/admin', { username, password })
       .then(res => {
+        this.setState({ username: '', password: '', password2: '' })
         alert('Admin Created')
-        console.log(res.data)
       })
       .catch(err => alert(err.request.response))
     }
     else {
-      alert('Passwords need to match.')
+      alert("Passwords don't match.")
     }
   }
 

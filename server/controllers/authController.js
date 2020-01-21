@@ -32,12 +32,12 @@ module.exports = {
     const isAuthenticated = bcrypt.compareSync(password, user.password)
     if (!isAuthenticated) return res.status(403).send('Incorrect Password')
     req.session.user = {
-      id: user.id,
+      userId: user.id,
       username: user.username
     }
     return res.status(200).send(req.session.user)
   },
-  logout: async (req, res) => {
+  adminLogout: async (req, res) => {
     req.session.destroy()
     return res.sendStatus(200)
   }

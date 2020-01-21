@@ -26,3 +26,4 @@ massive(CONNECTION_STRING).then(db => {
 
 app.post('/api/admin', authCtrl.createAdmin)
 app.post('/api/login', authCtrl.adminLogin)
+app.delete('/api/login', authCtrl.adminLogout)
