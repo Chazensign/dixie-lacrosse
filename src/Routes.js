@@ -6,7 +6,6 @@ import Sponsors from './components/Sponsors'
 import TeamInfo from './components/TeamInfo'
 import Schedule from './components/Schedule'
 
-
 export default (
   <Switch>
     <Route exact path='/' component={Home} />
