@@ -79,7 +79,7 @@ const getCalendar = (date, view) => {
 const ScheduleBox = styled.div`
   box-sizing: border-box;
   height: 100%;
-  width: 60vw;
+  max-width: 60vw;
   padding: 30px;
   background: white;
   display: flex;
