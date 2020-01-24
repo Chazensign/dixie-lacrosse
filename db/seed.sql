@@ -1,0 +1,1 @@
+create table admins (id serial primary key, username varchar(30), password varchar);

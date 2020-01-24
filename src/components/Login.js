@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import { setUser } from '../ducks/reducer'
+import axios from 'axios'
+import { connect } from 'react-redux'
 
 class Login extends Component {
   constructor(props) {
@@ -12,22 +15,39 @@ class Login extends Component {
   handleChange = (trg) => {
     this.setState({ [trg.name]: trg.value });
   }
+
+  adminLogin = () => {
+    axios.post('/api/login', this.state)
+    .then(res => {
+      this.props.setUser(res.data)
+      this.props.showLogin()
+    })
+    .catch()
+  }
+
+  
+
   render() { 
     return ( 
       <LoginContainer>
         <h2>Login</h2>
-        <input placeholder='Username' name='username' onChange={e => this.handleChange(e.target)} />
-        <input placeholder='Password' name='password' onChange={e => this.handleChange(e.target)} />
+        <input type='text' placeholder='Username' name='username' onChange={e => this.handleChange(e.target)} />
+        <input type='password' placeholder='Password' name='password' onChange={e => this.handleChange(e.target)} />
         <div className='button-cont'>
-        <button >Submit</button>
+        <button onClick={() => this.adminLogin()}>Submit</button>
         <button onClick={() => this.props.showLogin()} >Cancel</button>
         </div>
       </LoginContainer>
      )
   }
 }
- 
-export default Login;
+ function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username
+  }
+}
+export default connect(mapStateToProps, { setUser })(Login)
 
 const LoginContainer = styled.div`
   display: flex;
@@ -42,6 +62,7 @@ const LoginContainer = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   border: 2px solid lightgray;
+  z-index: 5;
   h2 {
     font-size: 24px;
     font-weight: bold;

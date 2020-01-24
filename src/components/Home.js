@@ -1,19 +1,43 @@
 import React from 'react';
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { clearUser } from '../ducks/reducer'
 
-const Home = () => {
-  return ( 
+
+const Home = (props) => {
+  return (
     <AboutSection>
       <h2>OUTPLAY, OUTWORK, OUTLAST!</h2>
       <img alt='' />
+      {props.username && (
+        <>
+          <input
+            type='text'
+            name='imgURL'
+            onChange={e => props.handleChange(e.target)}
+          />
+          <button>Submit</button>
+        </>
+      )}
       <p className='about'>
-        Dixie Lacrosse strives to provide our players a safe, positive, fun experience.  We will provide players the opportunity to lead, work hard for themselves and their teammates, and overcome adversity.  The ultimate goals: for our club to be an example of excellence in competition, in sportsmanship, and in leadership. we want our players to be better people for being part of Dixie Lacrosse.
+        Dixie Lacrosse strives to provide our players a safe, positive, fun
+        experience. We will provide players the opportunity to lead, work hard
+        for themselves and their teammates, and overcome adversity. The ultimate
+        goals: for our club to be an example of excellence in competition, in
+        sportsmanship, and in leadership. we want our players to be better
+        people for being part of Dixie Lacrosse.
       </p>
     </AboutSection>
-   );
+  )
 }
  
-export default Home;
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username
+  }
+}
+export default connect(mapStateToProps, { clearUser })(Home)
 
 const AboutSection = styled.section`
 display: flex;
