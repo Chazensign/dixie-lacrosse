@@ -1,21 +1,13 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
-class AddAdmin extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: '',
-      password: '',
-      password2: ''
-    }
-  }
-  handleChange = trg => {
-    this.setState({ [trg.name]: trg.value })
-  }
-  addNewAdmin = () => {
-    const { username, password, password2 } = this.state
+function AddAdmin(props) {
+  const [username, updateUsername] = useState('')
+  const [password, updatePassword] = useState('')
+  const [password2, updatePassword2] = useState('')
+  
+  const addNewAdmin = () => {
     if (password === password2) {
       axios.post('/api/admin', { username, password })
       .then(res => {
@@ -28,33 +20,30 @@ class AddAdmin extends Component {
       alert("Passwords don't match.")
     }
   }
-
-  render() {
     return (
       <AddAdminContainer>
         <h2>Add New Admin</h2>
         <input
           placeholder='Username'
           name='username'
-          onChange={e => this.handleChange(e.target)}
+          onChange={e => updateUsername(e.target.value)}
         />
         <input
           placeholder='Password'
           name='password'
-          onChange={e => this.handleChange(e.target)}
+          onChange={e => updatePassword(e.target.value)}
         />
         <input
           placeholder='Password'
           name='password2'
-          onChange={e => this.handleChange(e.target)}
+          onChange={e => updatePassword2(e.target.value)}
         />
         <div className='button-cont'>
-          <button onClick={() => this.addNewAdmin()}>Submit</button>
-          <button onClick={() => this.props.showAddAdmin()}>Cancel</button>
+          <button onClick={() => addNewAdmin()}>Submit</button>
+          <button onClick={() => props.showAddAdmin()}>Cancel</button>
         </div>
       </AddAdminContainer>
     )
-  }
 }
 
 export default AddAdmin

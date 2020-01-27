@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { clearUser } from '../ducks/reducer'
+import axios from 'axios'
 
 
 const Home = (props) => {
+  const [imgURL, updateImgURL] = useState('')
+
+  const saveImgURL = () => {
+    axios.put('/api/home', { imgURL })
+  }
+
   return (
     <AboutSection>
       <h2>OUTPLAY, OUTWORK, OUTLAST!</h2>
@@ -14,9 +21,9 @@ const Home = (props) => {
           <input
             type='text'
             name='imgURL'
-            onChange={e => props.handleChange(e.target)}
+            onChange={e => updateImgURL(e.target.value)}
           />
-          <button>Submit</button>
+          <button onClick={() => saveImgURL()}>Submit</button>
         </>
       )}
       <p className='about'>

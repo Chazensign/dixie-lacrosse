@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { setUser } from '../ducks/reducer'
 import axios from 'axios'
 import { connect } from 'react-redux'
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      username: '',
-      password: ''
-     }
-  }
-  handleChange = (trg) => {
-    this.setState({ [trg.name]: trg.value });
-  }
+function Login(props) {
+  const [username, updateUsername] = useState('')
+  const [password, updatePassword] = useState('')
 
-  adminLogin = () => {
-    axios.post('/api/login', this.state)
+  const adminLogin = () => {
+    axios.post('/api/login', {username, password})
     .then(res => {
-      this.props.setUser(res.data)
-      this.props.showLogin()
+      props.setUser(res.data)
+      props.showLogin()
     })
     .catch()
   }
-
-  
-
-  render() { 
     return ( 
       <LoginContainer>
         <h2>Login</h2>
-        <input type='text' placeholder='Username' name='username' onChange={e => this.handleChange(e.target)} />
-        <input type='password' placeholder='Password' name='password' onChange={e => this.handleChange(e.target)} />
+        <input type='text' placeholder='Username' name='username' onChange={e => updateUsername(e.target.value)} />
+        <input type='password' placeholder='Password' name='password' onChange={e => updatePassword(e.target.value)} />
         <div className='button-cont'>
-        <button onClick={() => this.adminLogin()}>Submit</button>
-        <button onClick={() => this.props.showLogin()} >Cancel</button>
+        <button onClick={() => adminLogin()}>Submit</button>
+        <button onClick={() => props.showLogin()} >Cancel</button>
         </div>
       </LoginContainer>
      )
-  }
 }
  function mapStateToProps(reduxState) {
   return {
