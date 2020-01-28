@@ -4,6 +4,7 @@ const massive = require('massive')
 const session = require('express-session')
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
 const authCtrl = require('./controllers/authController')
+const ctrl = require('./controllers/Controller')
 
 const app = express()
 
@@ -27,3 +28,4 @@ massive(CONNECTION_STRING).then(db => {
 app.post('/api/admin', authCtrl.createAdmin)
 app.post('/api/login', authCtrl.adminLogin)
 app.delete('/api/login', authCtrl.adminLogout)
+app.put('/api/home', ctrl.updateHomeImg)
