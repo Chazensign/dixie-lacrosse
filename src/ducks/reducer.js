@@ -21,7 +21,6 @@ export function clearUser() {
 }
 
 export default function reducer(state = initialState, action) {
-  console.log('hitting reducer');
   switch (action.type) {
     case SET_USER:
       return { ...action.payload }
@@ -29,8 +28,6 @@ export default function reducer(state = initialState, action) {
       return { ...action.payload }
 
     default:
-      console.log("hitting default");
-      
       return state
   }
 }
