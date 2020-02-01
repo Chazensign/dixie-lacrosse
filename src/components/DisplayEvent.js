@@ -9,7 +9,7 @@ const DisplayEvent = props => {
     if (event.event_date === props.date) {
       return (
         <EventInfo key={i} >
-          <p className='title enlarge'>{event.teams}</p>
+          <p className='title'>{event.teams}</p>
           <p className='enlarge'>{event.location}</p>
           <p className='enlarge'>{event.time}</p>
           <p className={event.about ? 'about' : 'hidden'}>{event.about}</p>
@@ -43,8 +43,8 @@ const EventInfo = styled.div`
     transition: all 500ms;
   }
   .about {
+    display: none;
     font-size: 10px;
     height: 18px;
-    
   }
 `

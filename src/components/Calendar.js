@@ -20,7 +20,13 @@ const Calendar = props => {
   
     return (
       <CalendarContainer>
-        <MiniCalendar events={events}/>
+        <MiniCalendar events={events} />
+        <div className='legend'>
+          <span className='event-day'></span>
+          <p>= Event</p>
+          <span className='current'></span>
+          <p>= Today</p>
+        </div>
       </CalendarContainer>
     )
 }
@@ -32,14 +38,36 @@ function mapStateToProps(reduxState) {
 export default connect(mapStateToProps, { setEvents })(Calendar)
 
 const CalendarContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   background: white;
-  width: 200px;
+  width: 215px;
   height: 250px;
   border: 2px solid lightgray;
   margin: 10px;
   padding: 5px;
+  .legend {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+      span {
+        margin: 2px 5px;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+      }
+  }
+  span.event-day {
+    background: green;
+    color: white;
+  }
+  span.current {
+    background: #04309d;
+    color: white;
+    font-weight: bold;
+  }
 `

@@ -23,8 +23,6 @@ export function clearUser() {
 }
 
 export function setEvents(events) {
-  console.log(events)
-  
   return {
     type: SET_EVENTS,
     payload: events

@@ -1,44 +1,75 @@
-import React, { Component } from 'react';
+import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import moment from 'moment'
 
-class UpcomingEvents extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
+const UpcomingEvents = props => {
+  const { events } = props
+  const now = moment().format('L')
 
-     }
-  }
-  
-  render() { 
-    return ( 
-      <UpcomingContainer>
-        <h2>Upcoming</h2>
-      </UpcomingContainer>
-     )
+  events.sort((event1, event2) => {
+    return event1 - event2
+    // moment(event1).isBefore(event2)
+  })
+
+  return (
+    <UpcomingContainer>
+      {events.map((event, i) => {
+        if (
+          moment(now).isSameOrBefore(event.event_date)) {
+          return (
+            <div className='one-event' key={i}>
+              <p className='title'>{event.teams}</p>
+              <p className='date'>{event.event_date}</p>
+              <p className='enlarge'>{event.location}</p>
+              <p className='enlarge'>{event.time}</p>
+            </div>
+          )
+        }else {
+          return null
+        }
+      })}
+    </UpcomingContainer>
+  )
+}
+function mapStateToProps(reduxState) {
+  return {
+    events: reduxState.eventList
   }
 }
- 
-export default UpcomingEvents;
+export default connect(mapStateToProps)(UpcomingEvents)
 
 const UpcomingContainer = styled.div`
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
   background: white;
-  width: 200px;
+  width: 215px;
   height: 250px;
   border: 2px solid lightgray;
   margin: 10px;
-  h2 {
+  overflow: scroll;
+  .one-event {
+    margin: 5px 8px 5px 5px;
+    width: 180px;
+    min-height: 80px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 1px #a0a0a0;
+  }
+  .title {
     display: flex;
-    color: grey;
-    font-size: 24px;
+    color: #04309d;
+    font-size: 18px;
     font-weight: bold;
     align-self: center;
     justify-self: flex-start;
   }
-  @media (max-width: 800px) {
-
+  p {
+    padding-top: 3px;
+    font-size: 14px;
   }
-  `
+  @media (max-width: 800px) {
+  }
+`

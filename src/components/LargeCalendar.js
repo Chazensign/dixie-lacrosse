@@ -147,6 +147,7 @@ const ScheduleBox = styled.div`
   }
   .calendar-dates {
     height: 90px;
+    padding-top: 5px;
     position: relative;
     animation: shrink 300ms;
   }
@@ -181,6 +182,7 @@ const ScheduleBox = styled.div`
     width: 140px;
     transform: translate(-20px, -20px);
     z-index: 5;
+    cursor: zoom-in;
     span {
       font-size: 24px;
       width: 35px;
@@ -195,12 +197,18 @@ const ScheduleBox = styled.div`
     p {
       height: unset;
     }
-    .enlarge {
+    .title {
       font-size: 14px;
-      margin: 4px 0;
+      margin: 4px 0 2px 0;
+      transition: all 500ms;
+    }
+    .enlarge {
+      font-size: 12px;
+      margin: 2px 0;
       transition: all 500ms;
     }
     .about {
+      display: initial;
       height: 50px;
       transition: all 500ms;
     }

@@ -111,6 +111,7 @@ const ScheduleBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
@@ -120,7 +121,7 @@ const ScheduleBox = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 5px 0 10px 0;
     h2 {
       font: 300 20px/20px 'Sport Font Outline';
       margin: 0 10px;
@@ -145,7 +146,8 @@ const ScheduleBox = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 22px;
+    height: 26px;
+    font-size: 14px;
     background: #04309d;
     /* line-height: 12px; */
     color: white;
