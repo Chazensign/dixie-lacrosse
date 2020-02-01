@@ -2,13 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 
 const AddEvent = props => {
+
+  const gameSelected = () => {
+    props.updateShowGame(true)
+    props.updateAddEvent(false)
+  }
+
+  const otherSelected = () => {
+    props.updateShowOther(true)
+    props.updateAddEvent(false)
+  }
+
   return (
     <TypeBox>
       <div className='type-container'>
         <h2>What type of event?</h2>
         <div className='button-cont'>
-          <button>Game</button>
-          <button>Other</button>
+          <button onClick={() => gameSelected()}>Game</button>
+          <button onClick={() => otherSelected()} >Other</button>
           <button onClick={() => props.updateAddEvent(false)}>Cancel</button>
         </div>
       </div>

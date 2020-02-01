@@ -1,22 +1,35 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import MiniCalendar from './MiniCalendar'
+import { connect } from 'react-redux'
+import { setEvents } from '../ducks/reducer'
+import axios from 'axios'
 
-class Calendar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+const Calendar = props => {
 
-  render() {
+  const { setEvents, events } = props
+
+  useEffect(() => {
+    const getEvents = () => {
+      axios.get('/api/event').then(res => {
+        setEvents(res.data)
+      })
+    }
+    getEvents()
+  }, [setEvents])
+  
     return (
       <CalendarContainer>
-        <h2>Calendar</h2>
+        <MiniCalendar events={events}/>
       </CalendarContainer>
     )
+}
+function mapStateToProps(reduxState) {
+  return {
+    events: reduxState.eventList
   }
 }
-
-export default Calendar
+export default connect(mapStateToProps, { setEvents })(Calendar)
 
 const CalendarContainer = styled.div`
   display: flex;
@@ -28,14 +41,5 @@ const CalendarContainer = styled.div`
   height: 250px;
   border: 2px solid lightgray;
   margin: 10px;
-  h2 {
-    display: flex;
-    color: grey;
-    font-size: 24px;
-    font-weight: bold;
-    align-self: center;
-    justify-self: flex-start;
-  }
-  @media (max-width: 800px) {
-  }
+  padding: 5px;
 `

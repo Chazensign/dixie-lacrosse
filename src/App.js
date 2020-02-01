@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
 import routes from './Routes'
 import { HashRouter } from 'react-router-dom'
 import Header from './components/Header'
@@ -8,7 +8,9 @@ import styled from 'styled-components'
 import grass from './assets/29300208-green-grass-for-sport-background.jpg'
 import Calendar from './components/Calendar'
 
-function App() {
+
+function App(props) {
+
   return (
     <HashRouter>
       <Header />
@@ -26,7 +28,7 @@ function App() {
   )
 }
 
-export default App;
+export default (App)
 
 const PageLayout = styled.div`
   width: 100%;
