@@ -36,7 +36,9 @@ class Contact extends Component {
     return (
       <>
         <ContactBox>
-          Contact
+          Dixie Lacrosse Club email: dhslacrosseclub@gmail.com Team Moms:
+          McKenzie Burgess email: mckenziebburgess@gmail.com Cell: 435-313-7149
+          Becky Thomas email: ryanbeckythomas@yahoo.com Cell: 435-680-2525
           {!this.props.username ? (
             <button onClick={() => this.showLogin()}>Admin Login</button>
           ) : (

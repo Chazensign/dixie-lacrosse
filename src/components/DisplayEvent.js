@@ -34,7 +34,7 @@ const EventInfo = styled.div`
   }
   p {
     margin: 2px 0;
-    height: 10px;
+    height: 20px;
     overflow: hidden;
   }
   .title {

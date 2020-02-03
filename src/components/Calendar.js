@@ -40,6 +40,7 @@ export default connect(mapStateToProps, { setEvents })(Calendar)
 const CalendarContainer = styled.div`
   box-sizing: border-box;
   display: flex;
+  border-radius: 5px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;

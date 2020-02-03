@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import routes from './Routes'
-import { HashRouter } from 'react-router-dom'
+import { HashRouter, Link } from 'react-router-dom'
 import Header from './components/Header'
 import UpcomingEvents from './components/UpcomingEvents'
 import styled from 'styled-components'
@@ -16,13 +16,19 @@ function App(props) {
       <Header />
       <PageLayout>
         <div className='left-section'></div>
-        <div className='App'>
-          {routes}
-        </div>
-        <div className='right-section'>
+        <div className='App'>{routes}</div>
+        <aside className='right-section'>
+          <a target='_blank' href='https://www.uslacrosse.org/'>
+            <div className='us-lacrosse-back'>
+              <img
+                src='https://activsocial-project.s3-us-west-1.amazonaws.com/Dixie/us-lacrosse-primary-trans.png'
+                alt='US Lacrosse Link'
+              />
+            </div>
+          </a>
           <Calendar />
-        <UpcomingEvents />
-        </div>
+          <UpcomingEvents />
+        </aside>
       </PageLayout>
     </HashRouter>
   )
@@ -52,5 +58,13 @@ const PageLayout = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .us-lacrosse-back {
+    background: white;
+    border-radius: 100%;
+    margin-top: 10px;
+    img {
+      width: 125px;
+    }
   }
 `

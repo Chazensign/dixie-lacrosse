@@ -149,7 +149,7 @@ const ScheduleBox = styled.div`
     height: 90px;
     padding-top: 5px;
     position: relative;
-    animation: shrink 300ms;
+    transition: all 300ms;
   }
   .calendar-dates span {
     position: absolute;
@@ -195,7 +195,7 @@ const ScheduleBox = styled.div`
     }
     animation: grow 500ms;
     p {
-      height: unset;
+      max-height: unset;
     }
     .title {
       font-size: 14px;

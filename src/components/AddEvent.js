@@ -45,6 +45,7 @@ const TypeBox = styled.div`
     align-items: center;
     justify-content: space-evenly;
     background: white;
+    border-radius: 5px;
     position: fixed;
     top: 50%;
     left: 50%;

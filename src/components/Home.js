@@ -15,7 +15,10 @@ const Home = (props) => {
   return (
     <AboutSection>
       <h2>OUTPLAY, OUTWORK, OUTLAST!</h2>
-      <img alt='' />
+      <img
+        src='https://activsocial-project.s3-us-west-1.amazonaws.com/Dixie/team-photo'
+        alt=''
+      />
       {props.username && (
         <>
           <input

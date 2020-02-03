@@ -7,11 +7,6 @@ const UpcomingEvents = props => {
   const { events } = props
   const now = moment().format('L')
 
-  events.sort((event1, event2) => {
-    return event1 - event2
-    // moment(event1).isBefore(event2)
-  })
-
   return (
     <UpcomingContainer>
       {events.map((event, i) => {
@@ -51,7 +46,7 @@ const UpcomingContainer = styled.div`
   margin: 10px;
   overflow: scroll;
   .one-event {
-    margin: 5px 8px 5px 5px;
+    margin: 5px;
     width: 180px;
     min-height: 80px;
     padding: 5px 10px;
