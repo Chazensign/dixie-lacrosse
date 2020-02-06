@@ -18,7 +18,24 @@ module.exports = {
       res.status(417).send({ message: 'Error' })
     }
   },
-  updateHomeImg: (req, res) => {
+  updateSite: async (req, res) => {
+    const {sponsorUrl, homeUrl, homeText} = req.body
+    const db = req.app.get('db')
+    if (sponsorUrl) {
+      const newContent = await db.sponsor_img(sponsorUrl)
+      if (newContent[0]) {
+        res.status(200).send(newContent)
+      } else {
+        res.status(417).send({ message: 'Error' })
+      }
+    }else if (homeUrl) {
+      const newContent = await db.home_info(homeText, homeUrl)
+      if (newContent[0]) {
+        res.status(200).send(newContent)
+      } else {
+        res.status(417).send({ message: 'Error' })
+      }
+    }
     
   },
   getDocuments: async (req, res) => {
@@ -53,6 +70,34 @@ module.exports = {
   deleteDocument: async (req, res) => {
     const db = req.app.get('db')
     const docs = await db.delete_doc(req.params.id)
+    if (docs[0]) {
+      res.status(200).send(docs)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  getSponsors: async (req, res) => {
+    const db = req.app.get('db')
+    const sponsText = await db.get_sponsors(req.params.id)
+    const sponsImg = await db .get_spons_img()
+    if (sponsText[0] || sponsImg[0]) {
+      res.status(200).send({sponsText, sponsImg})
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  addSponsor: async (req, res) => {
+    const db = req.app.get('db')
+    const docs = await db.add_sponsor(req.body.newSponsor)
+    if (docs[0]) {
+      res.status(200).send(docs)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  removeSponsor: async (req, res) => {
+    const db = req.app.get('db')
+    const docs = await db.remove_sponsor(req.params.id)
     if (docs[0]) {
       res.status(200).send(docs)
     } else {

@@ -6,12 +6,12 @@ import axios from 'axios'
 
 
 const Home = (props) => {
-  const [imgURL, updateImgURL] = useState('')
+  const [homeURL, updateImgURL] = useState('')
   const [homeText, updateText] = useState('')
   const [showEdit, updateEdit] = useState(false)
 
   const saveHome = () => {
-    axios.put('/api/home', { imgURL, homeText })
+    axios.put('/api/home', { homeURL, homeText })
     .then(res => {
       updateText(res.home_text)
       updateImgURL(res.home_img)
@@ -29,7 +29,7 @@ const Home = (props) => {
           <input
             type='text'
             className='imgUrl'
-            value={imgURL}
+            value={homeURL}
             onChange={e => updateImgURL(e.target.value)}
           />
           <h3>About Text:</h3>
