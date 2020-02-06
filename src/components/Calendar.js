@@ -19,7 +19,7 @@ const Calendar = props => {
   }, [setEvents])
   
     return (
-      <CalendarContainer>
+    <CalendarContainer>
         <MiniCalendar events={events} />
         <div className='legend'>
           <span className='event-day'></span>

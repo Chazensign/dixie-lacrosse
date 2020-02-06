@@ -7,6 +7,8 @@ const UpcomingEvents = props => {
   const { events } = props
   const now = moment().format('L')
 
+  if (events.length === 0) return null
+  
   return (
     <UpcomingContainer>
       {events.map((event, i) => {

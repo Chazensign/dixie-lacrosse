@@ -32,9 +32,9 @@ export function setEvents(events) {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { ...action.payload }
+      return { ...state, ...action.payload }
     case CLEAR_USER:
-      return { ...action.payload }
+      return { ...state, ...action.payload }
     case SET_EVENTS:
       return { ...state, eventList: [...action.payload]}
 

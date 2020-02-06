@@ -16,17 +16,29 @@ function Login(props) {
     })
     .catch()
   }
-    return ( 
-      <LoginContainer>
-        <h2>Login</h2>
-        <input type='text' placeholder='Username' name='username' onChange={e => updateUsername(e.target.value)} />
-        <input type='password' placeholder='Password' name='password' onChange={e => updatePassword(e.target.value)} />
-        <div className='button-cont'>
-        <button onClick={() => adminLogin()}>Submit</button>
-        <button onClick={() => props.showLogin()} >Cancel</button>
+    return (
+      <LoginScreen>
+        <div className='login-box'>
+          <h2>Login</h2>
+          <input
+            type='text'
+            placeholder='Username'
+            name='username'
+            onChange={e => updateUsername(e.target.value)}
+          />
+          <input
+            type='password'
+            placeholder='Password'
+            name='password'
+            onChange={e => updatePassword(e.target.value)}
+          />
+          <div className='button-cont'>
+            <button onClick={() => adminLogin()}>Submit</button>
+            <button onClick={() => props.showLogin()}>Cancel</button>
+          </div>
         </div>
-      </LoginContainer>
-     )
+      </LoginScreen>
+    )
 }
  function mapStateToProps(reduxState) {
   return {
@@ -36,7 +48,15 @@ function Login(props) {
 }
 export default connect(mapStateToProps, { setUser })(Login)
 
-const LoginContainer = styled.div`
+const LoginScreen = styled.div`
+width: 100vw;
+height: 100vh;
+position: fixed;
+top: 0;
+left: 0;
+background: black;
+z-index: 4;
+.login-box {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,8 +68,15 @@ const LoginContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 8px;
   border: 2px solid lightgray;
   z-index: 5;
+  input {
+    width: 150px;
+    height: 18px;
+    font-size: 14px;
+  }
+}
   h2 {
     font-size: 24px;
     font-weight: bold;

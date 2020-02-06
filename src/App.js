@@ -1,7 +1,6 @@
 import React from 'react'
-import './App.css'
 import routes from './Routes'
-import { HashRouter, Link } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import Header from './components/Header'
 import UpcomingEvents from './components/UpcomingEvents'
 import styled from 'styled-components'
@@ -13,8 +12,8 @@ function App(props) {
 
   return (
     <HashRouter>
-      <Header />
       <PageLayout>
+      <Header />
         <div className='left-section'></div>
         <div className='App'>{routes}</div>
         <aside className='right-section'>
@@ -46,7 +45,19 @@ const PageLayout = styled.div`
   background-image: url(${grass});
   height: 100vh;
   padding-top: 195px;
-
+  .App {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    background-image: url('assets/29300208-green-grass-for-sport-background.jpg');
+    height: 100%;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
   .left-section {
     width: 100%;
     height: 100%;
