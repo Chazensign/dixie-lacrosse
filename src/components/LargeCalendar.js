@@ -201,11 +201,13 @@ const ScheduleBox = styled.div`
       font-size: 14px;
       margin: 4px 0 2px 0;
       transition: all 500ms;
+      height: unset;
     }
     .enlarge {
       font-size: 12px;
       margin: 2px 0;
       transition: all 500ms;
+      height: unset;
     }
     .about {
       display: initial;

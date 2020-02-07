@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { clearUser } from '../ducks/reducer'
@@ -10,9 +10,25 @@ const Home = (props) => {
   const [homeText, updateText] = useState('')
   const [showEdit, updateEdit] = useState(false)
 
+  useEffect(() => {
+    const getInfo = () => {
+      axios
+        .get('/api/home')
+        .then(res => {
+          console.log(res.data)
+          updateText(res.data.home_text)
+          updateImgURL(res.data.home_img)
+        })
+        .catch(err => console.log(err))
+    }
+    getInfo()
+  }, [homeText, updateImgURL])
+
   const saveHome = () => {
     axios.put('/api/home', { homeURL, homeText })
     .then(res => {
+      console.log(res);
+      
       updateText(res.home_text)
       updateImgURL(res.home_img)
       updateEdit(false)
@@ -20,7 +36,7 @@ const Home = (props) => {
   }
 
   return (
-    <AboutSection image='https://activsocial-project.s3-us-west-1.amazonaws.com/Dixie/team-photo'>
+    <AboutSection image={homeURL} >
       <h2>OUTPLAY, OUTWORK, OUTLAST!</h2>
       <div className='team-pic'></div>
       {showEdit ? 
@@ -35,19 +51,12 @@ const Home = (props) => {
           <h3>About Text:</h3>
           <textarea name="home-text" value={homeText} id="" cols="30" rows="10"></textarea>
           <div className='button-cont'>
-
-          <button onClick={() => saveHome()}>Submit</button><button onClick={() => updateEdit(false)} >Cancel</button>
+          <button onClick={() => saveHome()}>Submit</button>
+          <button onClick={() => updateEdit(false)} >Cancel</button>
           </div>
         </> :
-      <p className='about'>
-        Dixie Lacrosse strives to provide our players a safe, positive, fun
-        experience. We will provide players the opportunity to lead, work hard
-        for themselves and their teammates, and overcome adversity. The ultimate
-        goals: for our club to be an example of excellence in competition, in
-        sportsmanship, and in leadership. we want our players to be better
-        people for being part of Dixie Lacrosse.
-      </p>}
-      {(props.username && !showEdit) && <button onClick={() => updateEdit(true)} >Edit</button>}
+      homeText && <p className='about'>{homeText}{(props.username && !showEdit) && <button className='edit-button' onClick={() => updateEdit(true)} >Edit</button>}</p>}
+      
     </AboutSection>
   )
 }
@@ -94,6 +103,7 @@ const AboutSection = styled.section`
     height: 50%;
   }
   .about {
+    position: relative;
     width: 400px;
     background: #3c68b9;
     color: white;
@@ -102,7 +112,7 @@ const AboutSection = styled.section`
   }
   textarea {
     width: 400px;
-    height: 250px;
+    height: 100px;
   }
   .button-cont {
     width: 100%;
@@ -111,6 +121,9 @@ const AboutSection = styled.section`
     margin-top: 15px;
   }
   button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
     box-shadow: inset 0px 1px 0px 0px #caefab;
     background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
     background-color: #77d42a;
@@ -131,9 +144,5 @@ const AboutSection = styled.section`
   button:hover {
     background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
     background-color: #5cb811;
-  }
-  button:active {
-    position: relative;
-    top: 1px;
   }
 `

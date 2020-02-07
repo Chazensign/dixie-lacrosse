@@ -63,7 +63,7 @@ const TeamInfo = props => {
     <TeamInfoBox>
       {documents.map((doc, i) => {
         return (
-          <a href={doc.doc_link} target='_blank'>
+          <a href={doc.doc_link} target='_blank'rel="noopener noreferrer">
             <div className='pdf-cont' key={doc.doc_id}>
               <h2>{doc.doc_name}</h2>
               <embed src={`${doc.doc_link}#toolbar=0`} alt={doc.doc_name} />
@@ -92,9 +92,9 @@ const TeamInfo = props => {
             <button onClick={() => deleteDocument()}>Delete</button>
           )}
         </div>
-      ) : (
-        <button onClick={() => showEdit({}, true)}>Add New</button>
-      )}
+      ) : 
+        props.username && <button onClick={() => showEdit({}, true)}>Add New</button>
+      }
     </TeamInfoBox>
   )
 }

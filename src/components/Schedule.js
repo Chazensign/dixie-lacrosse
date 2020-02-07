@@ -16,8 +16,10 @@ const Schedule = props => {
   const [eventDate, setEventDate] = useState('')
 
   const dateClicked = (date) => {
-    updateAddEvent(true)
-    setEventDate(date)
+    if (props.username) {
+      updateAddEvent(true)
+      setEventDate(date)
+    }
   }
 
   const submitEvent = (eventObj) => {
@@ -57,7 +59,9 @@ const Schedule = props => {
 }
  function mapStateToProps(reduxState) {
   return {
-    events: reduxState.eventList
+    events: reduxState.eventList,
+    userId: reduxState.userId,
+    username: reduxState.username
   }
 }
 export default connect(mapStateToProps, {setEvents})(Schedule)

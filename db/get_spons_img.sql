@@ -1,2 +1,2 @@
-select sponsor_img
+select sponsors_img
 from lacrosse;

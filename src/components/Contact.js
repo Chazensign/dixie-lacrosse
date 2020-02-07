@@ -112,7 +112,9 @@ const ContactBox = styled.div`
     line-height: 23px;
   }
   .button-cont {
-    
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
   }
   button {
     box-shadow: inset 0px 1px 0px 0px #caefab;

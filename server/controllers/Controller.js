@@ -38,6 +38,15 @@ module.exports = {
     }
     
   },
+  getHome: async (req, res) => {
+    const db = req.app.get('db')
+      const info = await db.get_home()
+      if (info[0]) {
+        res.status(200).send(info[0])
+      } else {
+        res.status(417).send({ message: 'Error' })
+      }
+  },
   getDocuments: async (req, res) => {
     const db = req.app.get('db')
     const docs = await db.get_docs()
@@ -88,18 +97,18 @@ module.exports = {
   },
   addSponsor: async (req, res) => {
     const db = req.app.get('db')
-    const docs = await db.add_sponsor(req.body.newSponsor)
-    if (docs[0]) {
-      res.status(200).send(docs)
+    const sponsText = await db.add_sponsor(req.body.newSponsor)
+    if (sponsText[0]) {
+      res.status(200).send({sponsText})
     } else {
       res.sendStatus(400)
     }
   },
   removeSponsor: async (req, res) => {
     const db = req.app.get('db')
-    const docs = await db.remove_sponsor(req.params.id)
-    if (docs[0]) {
-      res.status(200).send(docs)
+    const sponsText = await db.remove_sponsor(req.params.id)
+    if (sponsText[0]) {
+      res.status(200).send(sponsText)
     } else {
       res.sendStatus(400)
     }

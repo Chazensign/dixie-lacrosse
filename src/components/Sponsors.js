@@ -6,6 +6,7 @@ import axios from 'axios'
 const Sponsors = (props) => {
 
   const [sponsors, updateSponsors] = useState([])
+  const [loading, updateLoading] = useState(false)
   const [sponsorUrl, updateImg] = useState('')
   const [newSponsor, setNewSponsor] = useState('')
 
@@ -14,7 +15,11 @@ const Sponsors = (props) => {
       axios
         .get('/api/sponsor')
         .then(res => {
-          updateSponsors(res.data)
+          console.log(res.data.sponsText);
+          
+          updateSponsors(res.data.sponsText)
+          updateImg(res.data.sponsImg[0].sponsors_img)
+          updateLoading(true)
         })
         .catch(err => console.log(err))
     }
@@ -22,9 +27,12 @@ const Sponsors = (props) => {
   }, [updateSponsors])
 
   const submitSponsor = () => {
+    updateLoading(false)
     axios.post('/api/sponsor', {newSponsor})
     .then(res => {
-      updateSponsors(res.data)
+      updateSponsors(res.data.sponsText)
+      alert('Sponsor Added')
+      updateLoading(true)
     })
     .catch(err => console.log(err)
     )
@@ -35,6 +43,7 @@ const Sponsors = (props) => {
       .delete(`/api/sponsor/${id}`)
       .then(res => {
         updateSponsors(res.data)
+        alert('Sponsor Removed')
       })
       .catch(err => console.log(err))
   }
@@ -44,13 +53,14 @@ const Sponsors = (props) => {
       .put('/api/home', { sponsorUrl })
       .then(res => {
         updateImg(res.data[0])
+        alert('Image Updated')
       })
       .catch(err => console.log(err))
   }
-
+ 
   return (
     <SponsorsBox>
-      <h1>Our Sponsors</h1>
+      <h1>Our Sponsors:</h1>
       {props.username && (
         <>
           <h2>Sponsors Image URL:</h2>
@@ -58,26 +68,28 @@ const Sponsors = (props) => {
             value={sponsorUrl}
             onChange={e => updateImg(e.target.value)}
             type='text'
-          /><button onClick={() => submitImg()}>Submit</button>
+          />
+          <button onClick={() => submitImg()}>Submit</button>
         </>
       )}
-      <img
-        className='sponsor-img'
-        src={sponsorUrl}
-        alt=''
-      />
-      {sponsors.map((e, i) => {
-        return (
-          <>
-            <p key={e.sponsor_id}>{e.sponsor_text}</p>
-            {props.username && (
-              <button onClick={() => removeSponsor(e.sponsor_id)}>
-                Delete
-              </button>
-            )}
-          </>
-        )
-      })}
+      <div className='all-sponsors' >
+      {loading && sponsors.length > 0
+        ? sponsors.map((e, i) => {
+            return (
+              <>
+                <p key={e.sponsor_id}>{e.sponsor_text}</p>
+                {props.username && (
+                  <button onClick={() => removeSponsor(e.sponsor_id)}>
+                    Delete
+                  </button>
+                )}
+              </>
+            )
+          })
+        : null}
+        </div>
+      <img className='sponsor-img' src={sponsorUrl} alt='Sponsor Logos' />
+
       {props.username && (
         <>
           <h2>Add New Sponsor:</h2>
@@ -100,11 +112,19 @@ const SponsorsBox = styled.div`
   box-sizing: border-box;
   height: 100%;
   width: 600px;
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
   background: white;
   h1 {
     font-size: 24px;
     font-weight: bold;
+    margin: 20px 0 0 0;
+  }
+  p {
+    margin: 8px;
   }
   h2 {
     font-size: 18px;

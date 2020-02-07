@@ -13,11 +13,14 @@ function App(props) {
   return (
     <HashRouter>
       <PageLayout>
-      <Header />
+        <Header />
         <div className='left-section'></div>
         <div className='App'>{routes}</div>
         <aside className='right-section'>
-          <a target='_blank' href='https://www.uslacrosse.org/'>
+          <a
+            target='_blank'
+            href='https://www.uslacrosse.org/'
+            rel='noopener noreferrer'>
             <div className='us-lacrosse-back'>
               <img
                 src='https://activsocial-project.s3-us-west-1.amazonaws.com/Dixie/us-lacrosse-primary-trans.png'
