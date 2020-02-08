@@ -3,18 +3,29 @@ import moment from 'moment'
 import styled from 'styled-components'
 import DisplayEvent from './DisplayEvent'
 
-export default (props) => {
-  
+export default props => {
+  const {events} = props
   const getCalendar = (date, view) => {
+    
     let startDate = moment(date).startOf(view)
     let endDate = moment(date).endOf(view)
     let days = [...Array(+startDate.format('d'))]
     let day = startDate
-
-    while (day <= endDate) {
-      days.push(moment(day).format('L'))
-      day = day.clone().add(1, 'd')
-    }
+    
+      while (day <= endDate) {
+        days.push(moment(day).format('L'))
+        day = day.clone().add(1, 'd')
+      }
+      if (view === 'Month') {
+        for (let i = 0; i < events.length; i++) {
+          for (let j = 0; j < days.length; j++) {      
+            if (days[j] === events[i].event_date) {
+              days[j] = events[i]
+            }
+          }
+        }
+      }
+   
     switch (view) {
       case 'Month':
         return { currentMonth: days }
@@ -29,8 +40,10 @@ export default (props) => {
   const [monthToDisplay, setMonth] = useState()
 
   useLayoutEffect(() => {
-    setMonth(getCalendar(date, 'Month').currentMonth)
-  }, [date])
+    if (props.events) {
+      setMonth(getCalendar(date, 'Month').currentMonth)
+    }
+  }, [date, props.events])
 
   return (
     <ScheduleBox>
@@ -56,12 +69,33 @@ export default (props) => {
         <div className='table-body'>
           {monthToDisplay &&
             monthToDisplay.map((day, i) => {
-              if (day) {
+              if (typeof day === 'object') {
                 return (
-                  <div key={i} className='relative-parent'>
-                    <div
-                      onClick={() => props.dateClicked(day)}
-                      className='calendar-dates'>
+                  <div
+                    key={i}
+                    className='relative-parent'
+                    onClick={e => props.dateClicked(day.event_date, day.event_id)}>
+                    <div className='calendar-dates'>
+                      <span
+                        className={
+                          (moment().format('LL') === day.event_date) ? 'current'
+                            : ''
+                        }>
+                        <small>{moment(day.event_date).format('DD')}</small>
+                      </span>
+                      <DisplayEvent
+                        event={day}
+                      />
+                    </div>
+                  </div>
+                )
+              } else if (day) {
+                return (
+                  <div
+                    key={i}
+                    className='relative-parent'
+                    onClick={e => props.dateClicked(day, null)}>
+                    <div className='calendar-dates'>
                       <span
                         className={
                           moment().format('LL') === moment(day).format('LL')
@@ -70,18 +104,11 @@ export default (props) => {
                         }>
                         <small>{moment(day).format('DD')}</small>
                       </span>
-                      <DisplayEvent
-                        date={moment(day).format('L')}
-                        events={props.events}
-                      />
                     </div>
                   </div>
                 )
               } else {
-                return (
-                  <div className='calendar-dates empty' key={i}>
-                  </div>
-                )
+                return <div className='calendar-dates empty' key={i}></div>
               }
             })}
         </div>

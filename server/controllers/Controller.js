@@ -18,6 +18,15 @@ module.exports = {
       res.status(417).send({ message: 'Error' })
     }
   },
+  removeEvent: async (req, res) => {
+    const db = req.app.get('db')
+    const events = await db.delete_event(req.params.id)
+     if (events.length > 0) {
+      res.status(200).send(events)
+    } else {
+      res.status(417).send({ message: 'Error' })
+    }
+  },
   updateSite: async (req, res) => {
     const {sponsorUrl, homeUrl, homeText} = req.body
     const db = req.app.get('db')

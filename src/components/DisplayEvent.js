@@ -2,23 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 
 const DisplayEvent = props => {
-
-  if (props.events.length === 0) return null
-
-  return props.events.map((event, i) => {
-    if (event.event_date === props.date) {
-      return (
-        <EventInfo key={i} >
-          <p className='title'>{event.teams}</p>
-          <p className='enlarge'>{event.location}</p>
-          <p className='enlarge'>{event.time}</p>
-          <p className={event.about ? 'about' : 'hidden'}>{event.about}</p>
-        </EventInfo>
-      )
-    } else {
-      return null
-    }
-  })
+  const { event } = props
+  return (
+            <EventInfo>
+              <p className='title'>{event.teams}</p>
+              <p className='enlarge'>{event.location}</p>
+              <p className='enlarge'>{event.time}</p>
+              <p className={event.about ? 'about' : 'hidden'}>{event.about}</p>
+            </EventInfo>
+  )
 }
 
 export default DisplayEvent

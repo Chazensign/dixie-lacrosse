@@ -14,9 +14,12 @@ const Schedule = props => {
   const [showGame, updateShowGame] = useState(false)
   const [showOther, updateShowOther] = useState(false)
   const [eventDate, setEventDate] = useState('')
+  const [eventId, setEventId] = useState()
 
-  const dateClicked = (date) => {
+  const dateClicked = (date, id) => {
     if (props.username) {
+      console.log()
+      setEventId(id)
       updateAddEvent(true)
       setEventDate(date)
     }
@@ -30,21 +33,42 @@ const Schedule = props => {
         alert('Event saved')
         updateShowGame(false)
         updateShowOther(false)
+        setEventDate('')
       })
       .catch(err => console.log(err))
+  }
+ 
+  const deleteEvent = () => {
+    console.log(eventId);
+    
+    if (eventDate) {
+    axios.delete(`/api/event/${eventId}`)
+    .then(res => {
+      setEvents(res.data)
+      setEventDate('')
+      updateShowGame(false)
+      updateShowOther(false)
+    })
+    .catch(err => console.log(err)
+    )
+    }
   }
   
   return (
     <>
       {showGame && (
-        <AddGame 
-        submitEvent={submitEvent} 
-        updateShowGame={updateShowGame} />
+        <AddGame
+          deleteEvent={deleteEvent}
+          submitEvent={submitEvent}
+          updateShowGame={updateShowGame}
+        />
       )}
       {showOther && (
-        <AddOther 
-        submitEvent={submitEvent} 
-        updateShowOther={updateShowOther} />
+        <AddOther
+          deleteEvent={deleteEvent}
+          submitEvent={submitEvent}
+          updateShowOther={updateShowOther}
+        />
       )}
       {addEvent && (
         <AddEvent

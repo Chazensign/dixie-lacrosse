@@ -31,7 +31,7 @@ const AddGame = (props) => {
             Submit
           </button>
           <button onClick={() => props.updateShowGame(false)}>Cancel</button>
-          <button>Delete</button>
+          <button onClick={() => props.deleteEvent()}>Delete</button>
         </div>
       </div>
     </AddGameBack>

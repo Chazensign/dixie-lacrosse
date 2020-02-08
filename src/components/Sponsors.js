@@ -132,7 +132,7 @@ const SponsorsBox = styled.div`
   }
   .sponsor-img {
     width: 350px;
-    height: 350px;
+    height: 400px;
   }
   input {
     width: 500px;
