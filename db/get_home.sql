@@ -1,0 +1,1 @@
+select home_text, home_img from lacrosse;

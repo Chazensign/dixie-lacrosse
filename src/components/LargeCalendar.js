@@ -1,16 +1,49 @@
 import React, { useState, useLayoutEffect } from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
+import DisplayEvent from './DisplayEvent'
 
-export default (props, { children }) => {
+export default props => {
+  const {events} = props
+  const getCalendar = (date, view) => {
+    
+    let startDate = moment(date).startOf(view)
+    let endDate = moment(date).endOf(view)
+    let days = [...Array(+startDate.format('d'))]
+    let day = startDate
+    
+      while (day <= endDate) {
+        days.push(moment(day).format('L'))
+        day = day.clone().add(1, 'd')
+      }
+      if (view === 'Month') {
+        for (let i = 0; i < events.length; i++) {
+          for (let j = 0; j < days.length; j++) {      
+            if (days[j] === events[i].event_date) {
+              days[j] = events[i]
+            }
+          }
+        }
+      }
+   
+    switch (view) {
+      case 'Month':
+        return { currentMonth: days }
+      case 'Week':
+        return { weekDays: days }
+      default:
+        return []
+    }
+  }
   const [date, setDate] = useState()
   const { weekDays } = getCalendar(date, 'Week')
   const [monthToDisplay, setMonth] = useState()
-  
 
   useLayoutEffect(() => {
-    setMonth(getCalendar(date, 'Month').currentMonth);
-  }, [date])
+    if (props.events) {
+      setMonth(getCalendar(date, 'Month').currentMonth)
+    }
+  }, [date, props.events])
 
   return (
     <ScheduleBox>
@@ -36,58 +69,53 @@ export default (props, { children }) => {
         <div className='table-body'>
           {monthToDisplay &&
             monthToDisplay.map((day, i) => {
-              if (day) {
-              return (
-                <div onClick={() => props.updateAddEvent(true)} className='calendar-dates' key={i}>
-                  <span
-                    className={
-                      moment().format('LL') === moment(day).format('LL')
-                        ? 'current'
-                        : ''
-                    }
-                  >
-                    <small>{moment(day).format('DD')}</small>
-                  </span>
-                  {children}
-                </div>
-              )
-                  }else {
-                    return (
-                      <div className='calendar-dates' key={i}>
-                        <span
-                          className='blank'>
-                          <small></small>
-                        </span>
-                        {children}
-                      </div>
-                    )
-                  }
+              if (typeof day === 'object') {
+                return (
+                  <div
+                    key={i}
+                    className='relative-parent'
+                    onClick={e => props.dateClicked(day.event_date, day.event_id)}>
+                    <div className='calendar-dates'>
+                      <span
+                        className={
+                          (moment().format('LL') === day.event_date) ? 'current'
+                            : ''
+                        }>
+                        <small>{moment(day.event_date).format('DD')}</small>
+                      </span>
+                      <DisplayEvent
+                        event={day}
+                      />
+                    </div>
+                  </div>
+                )
+              } else if (day) {
+                return (
+                  <div
+                    key={i}
+                    className='relative-parent'
+                    onClick={e => props.dateClicked(day, null)}>
+                    <div className='calendar-dates'>
+                      <span
+                        className={
+                          moment().format('LL') === moment(day).format('LL')
+                            ? 'current'
+                            : ''
+                        }>
+                        <small>{moment(day).format('DD')}</small>
+                      </span>
+                    </div>
+                  </div>
+                )
+              } else {
+                return <div className='calendar-dates empty' key={i}></div>
+              }
             })}
         </div>
       </div>
     </ScheduleBox>
-  );
-};
-
-const getCalendar = (date, view) => {
-  let startDate = moment(date).startOf(view);
-  let endDate = moment(date).endOf(view);
-  let days = [...Array(+startDate.format('d'))]
-  let day = startDate;
-
-  while (day <= endDate) {
-    days.push(day.toDate());
-    day = day.clone().add(1, 'd');
-  }
-  switch (view) {
-    case 'Month':
-      return { currentMonth: days };
-    case 'Week':
-      return { weekDays: days };
-    default:
-      return [];
-  }
-};
+  )
+}
 
 const ScheduleBox = styled.div`
   box-sizing: border-box;
@@ -98,7 +126,6 @@ const ScheduleBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: scroll;
   * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
@@ -140,28 +167,84 @@ const ScheduleBox = styled.div`
     border-right: 1px solid lightgray;
     width: 100px;
   }
-  .calendar-dates {
+  .relative-parent {
+    width: 100px;
     height: 90px;
     position: relative;
   }
+  .calendar-dates {
+    height: 90px;
+    padding-top: 5px;
+    position: relative;
+    transition: all 300ms;
+  }
   .calendar-dates span {
     position: absolute;
+    background: white;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     right: 2px;
     top: 3px;
+    background: white;
+    border: 1px solid white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
     color: darkgray;
     cursor: pointer;
+    transition: all 500ms;
   }
   .calendar-dates span:not(.current):hover {
     color: #04309d;
     font-weight: bolder;
-    /* color: white; */
+  }
+  .calendar-dates:not(.empty):hover {
+    border: 1px solid lightgrey;
+    background: white;
+    position: absolute;
+    height: unset;
+    min-height: 130px;
+    width: 140px;
+    transform: translate(-20px, -20px);
+    z-index: 5;
+    cursor: zoom-in;
+    span {
+      font-size: 24px;
+      width: 35px;
+      height: 35px;
+      right: -20px;
+      top: -21px;
+      z-index: 6;
+      border: 1px solid lightgrey;
+      transition: all 500ms;
+    }
+    animation: grow 500ms;
+    p {
+      max-height: unset;
+    }
+    .title {
+      font-size: 14px;
+      margin: 4px 0 2px 0;
+      transition: all 500ms;
+      height: unset;
+    }
+    .enlarge {
+      font-size: 12px;
+      margin: 2px 0;
+      transition: all 500ms;
+      height: unset;
+    }
+    .about {
+      display: initial;
+      height: 50px;
+      transition: all 500ms;
+    }
+    span:not(.current) {
+      color: #04309d;
+      font-weight: bolder;
+    }
   }
   span.current {
     background: #04309d;
@@ -173,4 +256,45 @@ const ScheduleBox = styled.div`
     color: #04309d;
     border: 1px solid #04309d;
   }
-  `
+  @keyframes grow {
+    from {
+      height: 90px;
+      width: 100px;
+      transform: translate(0px, 0px);
+    }
+    to {
+      height: 130px;
+      width: 140px;
+      transform: translate(-20px, -20px);
+    }
+  }
+  @keyframes shrink {
+    from {
+      height: 130px;
+      width: 140px;
+      transform: translate(-20px, -20px);
+    }
+    to {
+      height: 90px;
+      width: 100px;
+      transform: translate(0px, 0px);
+    }
+  }
+  @keyframes font-grow {
+    from {
+      margin: 2px 0;
+      font-size: 10px;
+      span {
+        transform: translate(0, 0);
+      }
+    }
+    to {
+      margin: 4px 0;
+      font-size: 14px;
+      span {
+        z-index: 11;
+        transform: translate(-31px, -30px);
+      }
+    }
+  }
+`

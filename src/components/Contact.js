@@ -36,7 +36,35 @@ class Contact extends Component {
     return (
       <>
         <ContactBox>
-          Contact
+          <div>
+            Dixie Lacrosse Club email:
+            <br />
+            <a className='email' href='mailto:dhslacrosseclub@gmail.com'>
+              dhslacrosseclub@gmail.com
+            </a>
+          </div>
+          <div className='moms-div'>
+            <h2>Team Moms:</h2>
+            <div className='mom-info'>
+              McKenzie Burgess
+              <br />
+              Email:{' '}
+              <a className='email' href='mailto:mckenziebburgess@gmail.com'>
+                mckenziebburgess@gmail.com
+              </a>
+              <br />
+              Cell: 435-313-7149
+            </div>
+            <div className='mom-info'>
+              Becky Thomas
+              <br /> Email:{' '}
+              <a className='email' href='mailto:mckenziebburgess@gmail.com'>
+                ryanbeckythomas@yahoo.com
+              </a>{' '}
+              <br />
+              Cell: 435-680-2525
+            </div>
+          </div>
           {!this.props.username ? (
             <button onClick={() => this.showLogin()}>Admin Login</button>
           ) : (
@@ -71,6 +99,23 @@ const ContactBox = styled.div`
   width: 600px;
   padding: 30px;
   background: white;
+  h2 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .email {
+    color: blue;
+    text-decoration: underline;
+  }
+  .mom-info {
+    margin-top: 10px;
+    line-height: 23px;
+  }
+  .button-cont {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
   button {
     box-shadow: inset 0px 1px 0px 0px #caefab;
     background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
@@ -83,7 +128,7 @@ const ContactBox = styled.div`
     font-family: Arial;
     font-size: 15px;
     font-weight: bold;
-    padding: 6px 0;
+    padding: 4px 0;
     width: 120px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #aade7c;

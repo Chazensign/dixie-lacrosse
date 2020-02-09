@@ -20,7 +20,12 @@ class Header extends Component {
           <Link to='/'>HOME</Link>
           <Link to='/schedule'>SCHEDULE</Link>
           <Link to='/teaminfo'>TEAM INFORMATION</Link>
-          <Link to=''>TEAM STORE</Link>
+          <a
+            rel='noopener noreferrer'
+            target='_blank'
+            href='https://www.bsnteamsports.com/shop/DIXIELAX'>
+            TEAM STORE
+          </a>
           <Link to='/sponsors'>SPONSORS</Link>
           <Link to='/contact'>CONTACT</Link>
         </nav>
