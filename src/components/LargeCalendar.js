@@ -1,11 +1,13 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import styled from 'styled-components'
 import DisplayEvent from './DisplayEvent'
+import { useCallback } from 'react'
 
 export default props => {
   const {events} = props
-  const getCalendar = (date, view) => {
+  
+  const getCalendar = useCallback((date, view) => {
     
     let startDate = moment(date).startOf(view)
     let endDate = moment(date).endOf(view)
@@ -34,16 +36,16 @@ export default props => {
       default:
         return []
     }
-  }
+  }, [ events])
   const [date, setDate] = useState()
   const { weekDays } = getCalendar(date, 'Week')
   const [monthToDisplay, setMonth] = useState()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (props.events) {
       setMonth(getCalendar(date, 'Month').currentMonth)
     }
-  }, [date, props.events])
+  }, [date, props.events, getCalendar])
 
   return (
     <ScheduleBox>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Login from './Login'
 import AddAdmin from './AddAdmin'
@@ -6,79 +6,112 @@ import { connect } from 'react-redux'
 import { clearUser } from '../ducks/reducer'
 import axios from 'axios'
 
-class Contact extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loginHidden: false,
-      showAdd: false
-    }
-  }
+const Contact = props => {
+  const [loginHidden, setLogin] = useState(false)
+  const [showAdd, setShowAdd] = useState(false)
+  const [newMom, showNewMom] = useState(false)
+  const [contacts, setContacts] = useState([])
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [cell, setCell] = useState('')
 
-  showLogin = () => {
-    this.setState({ loginHidden: !this.state.loginHidden })
-  }
-  showAddAdmin = () => {
-    this.setState({ showAdd: !this.state.showAdd })
-  }
-  adminLogout = () => {
+  useEffect(() => {
+    const getMoms = () => {
+      axios
+      .get('/api/contact')
+      .then(res => setContacts(res.data))
+      .catch(err => console.log(err))
+    }
+    getMoms()
+  }, [setContacts])
+
+  const adminLogout = () => {
     axios
       .delete('/api/login')
       .then(res => {
         this.props.clearUser()
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => {console.log(err)})
   }
-  render() {
-   
-    return (
-      <>
-        <ContactBox>
+
+const addMom = () => {
+  axios
+  .post('/api/contact', {name, email, cell})
+  .then(res => {
+    setContacts(res.data)
+    showNewMom(false)
+    setName('')
+    setEmail('')
+    setCell('')
+  })
+}
+
+  const removeMom = (id) => {
+    axios
+    .delete(`/api/contact/${id}`)
+    .then(res => setContacts(res.data))
+    .catch(err => console.log(err))
+  }
+
+  return (
+    <>
+      <ContactBox>
+        <div>
+          Dixie Lacrosse Club email:
+          <br />
+          <a className='email' href='mailto:dhslacrosseclub@gmail.com'>
+            dhslacrosseclub@gmail.com
+          </a>
+        </div>
+        <div className='moms-div'>
+          {contacts.map(mom => {
+            return (
+              <div className='mom-info' key={mom.mom_id}>
+                {mom.name}
+                <br />
+                Email:{' '}
+                <a className='email' href={`mailto:${mom.email}`}>
+                  {mom.email}
+                </a>
+                <br />
+                Cell: {mom.cell}<br/>
+                {props.username && (
+                  <button onClick={() => removeMom(mom.mom_id)}>Delete</button>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        {props.username && (
+          <button onClick={() => showNewMom(true)}>Add Contact</button>
+        )}
+        {newMom && (
           <div>
-            Dixie Lacrosse Club email:
-            <br />
-            <a className='email' href='mailto:dhslacrosseclub@gmail.com'>
-              dhslacrosseclub@gmail.com
-            </a>
-          </div>
-          <div className='moms-div'>
-            <h2>Team Moms:</h2>
-            <div className='mom-info'>
-              McKenzie Burgess
-              <br />
-              Email:{' '}
-              <a className='email' href='mailto:mckenziebburgess@gmail.com'>
-                mckenziebburgess@gmail.com
-              </a>
-              <br />
-              Cell: 435-313-7149
-            </div>
-            <div className='mom-info'>
-              Becky Thomas
-              <br /> Email:{' '}
-              <a className='email' href='mailto:mckenziebburgess@gmail.com'>
-                ryanbeckythomas@yahoo.com
-              </a>{' '}
-              <br />
-              Cell: 435-680-2525
-            </div>
-          </div>
-          {!this.props.username ? (
-            <button onClick={() => this.showLogin()}>Admin Login</button>
-          ) : (
+            <h3>Name:</h3>
+            <input type='text' onChange={e => setName(e.target.value)} />
+            <h3>Email:</h3>
+            <input type='text' onChange={e => setEmail(e.target.value)} />
+            <h3>Cell:</h3>
+            <input type='text' onChange={e => setCell(e.target.value)} />
             <div className='button-cont'>
-              <button onClick={() => this.showAddAdmin()}>Add Admin</button>
-              <button onClick={() => this.adminLogout()}>Logout</button>
+              <button onClick={() => addMom()}>Submit</button>
+              <button onClick={() => showNewMom(false)}>Cancel</button>
             </div>
-          )}
-        </ContactBox>
-        {this.state.loginHidden && <Login showLogin={this.showLogin} />}
-        {this.state.showAdd && <AddAdmin showAddAdmin={this.showAddAdmin} />}
-      </>
-    )
-  }
+          </div>
+        )}
+        {!props.username ? (
+          <button onClick={() => setLogin(true)}>Admin Login</button>
+        ) : (
+          <div className='button-cont'>
+            <button onClick={() => setShowAdd()}>Add Admin</button>
+            <button onClick={() => adminLogout()}>Logout</button>
+          </div>
+        )}
+      </ContactBox>
+      {loginHidden && <Login setLogin={setLogin} />}
+      {showAdd && <AddAdmin setShowAdd={setShowAdd} />}
+    </>
+  )
 }
 
 function mapStateToProps(reduxState) {

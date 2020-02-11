@@ -4,7 +4,7 @@ import { HashRouter } from 'react-router-dom'
 import Header from './components/Header'
 import UpcomingEvents from './components/UpcomingEvents'
 import styled from 'styled-components'
-import grass from './assets/29300208-green-grass-for-sport-background.jpg'
+import grass from './assets/grass-back.jpg'
 import Calendar from './components/Calendar'
 
 
@@ -54,7 +54,6 @@ const PageLayout = styled.div`
     justify-content: center;
     text-align: center;
     box-sizing: border-box;
-    background-image: url('assets/29300208-green-grass-for-sport-background.jpg');
     height: 100%;
   }
   a {

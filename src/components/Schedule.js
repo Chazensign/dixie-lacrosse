@@ -18,7 +18,6 @@ const Schedule = props => {
 
   const dateClicked = (date, id) => {
     if (props.username) {
-      console.log()
       setEventId(id)
       updateAddEvent(true)
       setEventDate(date)
@@ -39,8 +38,6 @@ const Schedule = props => {
   }
  
   const deleteEvent = () => {
-    console.log(eventId);
-    
     if (eventDate) {
     axios.delete(`/api/event/${eventId}`)
     .then(res => {

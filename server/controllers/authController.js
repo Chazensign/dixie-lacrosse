@@ -4,8 +4,6 @@ module.exports = {
   
   createAdmin: async (req, res) => {
     const { username, password } = req.body
-    console.log(req.body)
-    
     const db = req.app.get('db')
     let foundUser = await db.get_admin(username)
     let user = foundUser[0]

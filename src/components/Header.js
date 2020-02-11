@@ -23,7 +23,7 @@ class Header extends Component {
           <a
             rel='noopener noreferrer'
             target='_blank'
-            href='https://www.bsnteamsports.com/shop/DIXIELAX'>
+            href='https://www.bsnteamsports.com/shop/DIXIELAX20'>
             TEAM STORE
           </a>
           <Link to='/sponsors'>SPONSORS</Link>
