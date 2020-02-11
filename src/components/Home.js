@@ -15,7 +15,6 @@ const Home = (props) => {
       axios
         .get('/api/home')
         .then(res => {
-          console.log(res.data)
           updateText(res.data.home_text)
           updateImgURL(res.data.home_img)
         })
@@ -27,8 +26,6 @@ const Home = (props) => {
   const saveHome = () => {
     axios.put('/api/home', { homeURL, homeText })
     .then(res => {
-      console.log(res);
-      
       updateText(res.home_text)
       updateImgURL(res.home_img)
       updateEdit(false)

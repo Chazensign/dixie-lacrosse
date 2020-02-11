@@ -7,3 +7,5 @@ create table documents (doc_id serial PRIMARY key, doc_name varchar(40), doc_lin
 create table lac_events (event_id serial primary key, teams VARCHAR(50), location VARCHAR(50), time VARCHAR(30), about VARCHAR, event_date date);
 
 create table sponsors (sponsor_id serial primary key, sponsor_text varchar(100));
+
+create table team_moms ( mom_id serial primary key, name VARCHAR(30), email VARCHAR(40), cell VARCHAR(15));

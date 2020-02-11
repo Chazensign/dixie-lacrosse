@@ -9,24 +9,37 @@ const TeamInfo = props => {
   const [documents, setDocuments] = useState([])
   const [docName, setName] = useState()
   const [docLink, setLink] = useState()
+  const [donateUrl, setDonate] = useState()
 
   useEffect(() => {
-    const getEvents = () => {
+    const getInfo = () => {
       axios
         .get('/api/document')
         .then(res => {
-          setDocuments(res.data)
+          setDocuments(res.data.docs)
+          setDonate(res.data.wishlist[0].wishlist)
         })
         .catch(err => console.log(err))
     }
-    getEvents()
+    getInfo()
   }, [setDocuments])
 
+  const handleChange = (text) => {
+    setDonate(text)
+  }
   const showEdit = (docObj, show) => {
     setName(docObj.doc_name)
     setLink(docObj.doc_link)
     setId(docObj.doc_id)
     changeEditing(show)
+  }
+
+  const updateWishlist = () => {
+    axios.post('/api/wishlist', {url: donateUrl})
+    .then(() => {
+      alert('Link Updated')
+  })
+    .catch(err => console.log(err))
   }
 
   const submitDoc = () => {
@@ -36,6 +49,7 @@ const TeamInfo = props => {
         .then(res => {
           setDocuments(res.data)
           showEdit({}, false)
+
         })
         .catch(err => console.log(err))
     } else {
@@ -61,21 +75,41 @@ const TeamInfo = props => {
 
   return (
     <TeamInfoBox>
+      <p>
+        Since our team is functioning off of donations and sponsors, our team is
+        still in need of some items for our season. We have made an Amazon
+        wishlist for these items, and would greatly appreciate anything that can
+        be donated.
+        <br />
+        <a href={donateUrl} target='_blank' rel='noopener noreferrer'>
+          Click Here To Donate
+        </a>
+      </p>
+      {props.username && (
+        <div className='edit-wishlist'>
+          <h2>Wishlist URL:</h2>
+          <input
+            type='text'
+            onChange={e => handleChange(e.target.value)}
+          />
+          <button onClick={() => updateWishlist()}>Submit</button>
+        </div>
+      )}
       {documents.map((doc, i) => {
         return (
-          <a href={doc.doc_link} target='_blank'rel="noopener noreferrer">
-            <div className='pdf-cont' key={doc.doc_id}>
+          <div key={doc.doc_id} className='pdf-cont'>
+            <a href={doc.doc_link} target='_blank' rel='noopener noreferrer'>
               <h2>{doc.doc_name}</h2>
-              <embed src={`${doc.doc_link}#toolbar=0`} alt={doc.doc_name} />
-              {props.username && (
-                <button
-                  className='edit-button'
-                  onClick={() => showEdit(doc, true)}>
-                  Edit
-                </button>
-              )}
-            </div>
-          </a>
+            </a>
+            <embed src={`${doc.doc_link}#toolbar=0`} alt={doc.doc_name} />
+            {props.username && (
+              <button
+                className='edit-button'
+                onClick={() => showEdit(doc, true)}>
+                Edit
+              </button>
+            )}
+          </div>
         )
       })}
       {editing ? (
@@ -92,9 +126,11 @@ const TeamInfo = props => {
             <button onClick={() => deleteDocument()}>Delete</button>
           )}
         </div>
-      ) : 
-        props.username && <button onClick={() => showEdit({}, true)}>Add New</button>
-      }
+      ) : (
+        props.username && (
+          <button onClick={() => showEdit({}, true)}>Add New</button>
+        )
+      )}
     </TeamInfoBox>
   )
 }
@@ -116,6 +152,30 @@ const TeamInfoBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   background: white;
+  overflow: scroll;
+  .edit-wishlist {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    h2 {
+      font-weight: bold;
+    }
+  }
+  p {
+    height: fit-content;
+    background: #3c68b9;
+    color: white;
+    padding: 5px;
+    a {
+      color: blue;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    a:hover {
+      color: grey;
+      cursor: pointer;
+    }
+  }
   .doc-input {
     height: 258px;
     display: flex;
@@ -133,6 +193,13 @@ const TeamInfoBox = styled.div`
       color: #444;
       font-weight: bold;
     }
+    h2:hover {
+      color: blue;
+    }
+  }
+
+  input {
+    width: 400px;
   }
   embed {
     width: 200px;
@@ -171,10 +238,6 @@ const TeamInfoBox = styled.div`
   button:hover {
     background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
     background-color: #5cb811;
-  }
-  button:active {
-    position: relative;
-    top: 1px;
   }
   .edit-button {
     position: absolute;

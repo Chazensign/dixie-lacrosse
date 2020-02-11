@@ -59,15 +59,14 @@ module.exports = {
   getDocuments: async (req, res) => {
     const db = req.app.get('db')
     const docs = await db.get_docs()
+    const wishlist = await db.get_wishlist()
     if (docs[0]) {
-      res.status(200).send(docs)
+      res.status(200).send({docs, wishlist})
     }else {
       res.sendStatus(400)
     }
   },
   addDocument: async (req, res) => {
-    console.log('hitting add');
-    
     const db = req.app.get('db')
     const docs = await db.add_doc(req.body.docName, req.body.docLink)
     if (docs[0]) {
@@ -90,6 +89,15 @@ module.exports = {
     const docs = await db.delete_doc(req.params.id)
     if (docs[0]) {
       res.status(200).send(docs)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  editDonateUrl: async (req, res) => {
+    const db = req.app.get('db')
+    const wishlist = await db.update_wishlist(req.body.url)
+    if (wishlist[0]) {
+      res.sendStatus(200)
     } else {
       res.sendStatus(400)
     }
@@ -118,6 +126,35 @@ module.exports = {
     const sponsText = await db.remove_sponsor(req.params.id)
     if (sponsText[0]) {
       res.status(200).send(sponsText)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  getMoms: async (req, res) => {
+    const db = req.app.get('db')
+    const moms = await db.get_moms()
+    if (moms[0]) {
+      res.status(200).send(moms)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  addMom: async (req, res) => {
+    const { name, email, cell } = req.body
+    const db = req.app.get('db')
+    const moms = await db.add_mom(name, email, cell)
+    if (moms[0]) {
+      res.status(200).send(moms)
+    } else {
+      res.sendStatus(400)
+    }
+  },
+  removeMom: async (req, res) => {
+    const { id } = req.params
+    const db = req.app.get('db')
+    const moms = await db.remove_mom(id)
+    if (moms[0]) {
+      res.status(200).send(moms)
     } else {
       res.sendStatus(400)
     }

@@ -12,7 +12,7 @@ function Login(props) {
     axios.post('/api/login', {username, password})
     .then(res => {
       props.setUser(res.data)
-      props.showLogin()
+      props.setLogin(false)
     })
     .catch()
   }
@@ -34,7 +34,7 @@ function Login(props) {
           />
           <div className='button-cont'>
             <button onClick={() => adminLogin()}>Submit</button>
-            <button onClick={() => props.showLogin()}>Cancel</button>
+            <button onClick={() => props.setLogin(false)}>Cancel</button>
           </div>
         </div>
       </LoginScreen>
